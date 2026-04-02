@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Owiye Sylvia - Full-stack Developer{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section id="home" class="hero-section text-center">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <h1 class="display-3 fw-bold mb-3 text-primary">Owiye Sylvia</h1>
+                <h2 class="h3 text-secondary-blue mb-4">Full-stack Developer</h2>
+                <p class="lead mb-5">Full-stack Developer passionate about building scalable, secure, and efficient web applications with a strong foundation in backend development and system design.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#projects" class="btn btn-primary btn-lg px-4">View Projects</a>
+                    <a href="#about" class="btn btn-outline-primary btn-lg px-4">About Me</a>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                {% if profile and profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" alt="Owiye Sylvia" class="img-fluid rounded-circle shadow-lg border border-5 border-white" style="width: 400px; height: 400px; object-fit: cover;">
+                {% else %}
+                    <img src="https://via.placeholder.com/400x400?text=Upload+Profile+Image&bg=0056b3&fg=ffffff" alt="Profile Image" class="img-fluid rounded-circle shadow-lg border border-5 border-white">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold text-primary">About Me</h2>
+            <div class="section-title-underline"></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up">
+                <p class="lead text-center mb-4">
+                    I am a Computer Science student specializing in Software Engineering, with a focus on designing, building, and maintaining reliable full-stack applications. I have hands-on experience developing web applications using Python(Django), working with relational databases, and structuring scalable application logic.
+                </p>
+                <p class="text-center mb-4">
+                    My approach to software development is grounded in first principles: I prioritize clean architecture, modular design, and efficient data handling. I understand that software is not just about writing code—it is about building systems that are secure, maintainable, and capable of handling real-world constraints such as performance, data consistency, and user interaction.
+                </p>
+                <p class="text-center mb-4">
+                    I have developed projects that implement core software engineering concepts including authentication systems, database design, API integration, and error handling. These experiences have strengthened my ability to translate requirements into functional systems while maintaining code quality and structure.
+                </p>
+                <p class="text-center mb-5">
+                    I am particularly interested in backend engineering, system design, and secure application development within large-scale ICT environments. I aim to deepen my practical experience by contributing to systems that operate in regulated, high-impact domains, where reliability and correctness are critical.
+                </p>
+                
+                <div class="row g-4">
+                    {% for category, skills in skills_by_category.items %}
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                        <div class="card h-100 border-0 shadow-sm p-3">
+                            <h4 class="h5 fw-bold text-primary mb-3">
+                                {% if "Programming" in category %}<i class="fas fa-code me-2"></i>
+                                {% elif "Frontend" in category %}<i class="fas fa-laptop-code me-2"></i>
+                                {% elif "Backend" in category %}<i class="fas fa-server me-2"></i>
+                                {% elif "Databases" in category %}<i class="fas fa-database me-2"></i>
+                                {% elif "Collaboration" in category %}<i class="fas fa-code-branch me-2"></i>
+                                {% elif "Tools" in category %}<i class="fas fa-tools me-2"></i>
+                                {% endif %}
+                                {{ category }}
+                            </h4>
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for skill in skills %}
+                                <span class="badge skill-badge">{{ skill.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No skills added yet. Add them in the Admin Panel!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold text-primary">My Projects</h2>
+            <div class="section-title-underline"></div>
+        </div>
+        <div class="row g-4">
+            {% for project in projects %}
+            <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                <div class="card project-card border-0 shadow-sm">
+                    {% if project.image %}
+                        <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.name }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/400x250?text=Project+Image&bg=0056b3&fg=ffffff" class="card-img-top" alt="Project Placeholder">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ project.name }}</h5>
+                        <p class="card-text text-muted">{{ project.description|truncatewords:20 }}</p>
+                        <div class="mb-3">
+                            {% for tech in project.technologies.split %}
+                                <span class="badge skill-badge">{{ tech|cut:"," }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="d-flex gap-2">
+                            {% if project.live_link %}
+                                <a href="{{ project.live_link }}" class="btn btn-sm btn-primary" target="_blank"><i class="fas fa-external-link-alt me-1"></i> Live</a>
+                            {% endif %}
+                            {% if project.github_link %}
+                                <a href="{{ project.github_link }}" class="btn btn-sm btn-outline-primary" target="_blank"><i class="fab fa-github me-1"></i> GitHub</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No projects added yet. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Contact Info Section -->
+<section id="contact" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold text-primary">Get In Touch</h2>
+            <div class="section-title-underline"></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <div class="card border-0 shadow-sm p-4 border-top border-primary border-4">
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <i class="fas fa-envelope text-primary mb-3 fs-3"></i>
+                            <div class="fw-bold text-primary">Email</div>
+                            <a href="mailto:anyangosylvia2003@gmail.com" class="text-decoration-none">anyangosylvia2003@gmail.com</a>
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <i class="fas fa-phone text-primary mb-3 fs-3"></i>
+                            <div class="fw-bold text-primary">Phone</div>
+                            <a href="tel:+254794326814" class="text-decoration-none">+254 794 326 814</a>
+                        </div>
+                        <div class="col-md-4">
+                            <i class="fab fa-whatsapp text-success mb-3 fs-3"></i>
+                            <div class="fw-bold text-success">WhatsApp</div>
+                            <a href="https://wa.me/254794326814" target="_blank" class="text-decoration-none">Chat with me</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

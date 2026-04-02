@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Owiye Sylvia - Full-stack Developer{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0056b3;
+            --secondary-blue: #007bff;
+            --light-blue: #e7f1ff;
+            --dark-blue: #003d80;
+            --transition-speed: 0.3s;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+        .navbar {
+            background-color: var(--primary-blue) !important;
+            transition: background-color var(--transition-speed);
+        }
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+        .nav-link:hover {
+            color: var(--light-blue) !important;
+        }
+        .hero-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--light-blue) 0%, #ffffff 100%);
+        }
+        [data-bs-theme="dark"] .hero-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #001a33 100%);
+        }
+        .text-primary {
+            color: var(--primary-blue) !important;
+        }
+        .btn-primary {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            border-color: var(--dark-blue);
+        }
+        .btn-outline-primary {
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            border-top: 4px solid var(--primary-blue) !important;
+        }
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+        }
+        .skill-badge {
+            margin: 5px;
+            font-size: 0.9rem;
+            background-color: var(--light-blue) !important;
+            color: var(--primary-blue) !important;
+            border: 1px solid var(--primary-blue);
+        }
+        .footer {
+            padding: 50px 0;
+            background-color: var(--dark-blue);
+            color: white;
+        }
+        .footer a {
+            color: var(--light-blue) !important;
+        }
+        .footer p {
+            color: white !important;
+        }
+        #theme-toggle {
+            cursor: pointer;
+            color: white;
+            border-color: white;
+        }
+        #theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .section-title-underline {
+            background-color: var(--primary-blue);
+            width: 60px;
+            height: 4px;
+            margin: 0 auto;
+        }
+        .card-title {
+            color: var(--primary-blue);
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">Portfolio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <button id="theme-toggle" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2026 Owiye Sylvia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        const icon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            htmlElement.setAttribute('data-bs-theme', newTheme);
+            icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            htmlElement.setAttribute('data-bs-theme', savedTheme);
+            icon.className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

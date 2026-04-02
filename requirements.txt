@@ -3,3 +3,4 @@ django-environ
 whitenoise
 dj-database-url
 Pillow
+gunicorn==21.2.0
